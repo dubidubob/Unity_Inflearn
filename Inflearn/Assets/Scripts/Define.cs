@@ -1,7 +1,7 @@
 
 public class Define
 {
-    enum Sounds{
+    public enum Sound{
         Bgm,
         Effect,
         MaxCount
