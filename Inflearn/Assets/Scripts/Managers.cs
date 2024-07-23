@@ -28,4 +28,8 @@ public class Managers : MonoBehaviour
         }
     }
     #endregion
+
+    public void Resource(string path) 
+    { 
+    }
 }
