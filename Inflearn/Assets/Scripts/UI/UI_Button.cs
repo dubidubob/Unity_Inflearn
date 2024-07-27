@@ -5,9 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Button : MonoBehaviour
+public class UI_Button : UI_Base
 {
-    //Dictionary<Type, UnityEngine.Object[]>
     [SerializeField] TextMeshProUGUI _text;
 
     enum Buttons
@@ -21,18 +20,22 @@ public class UI_Button : MonoBehaviour
         ScoreText
     }
 
+    enum GameObjects
+    {
+        TestObject,
+    }
+
     private void Start()
     {
         Bind<Button>(typeof(Buttons));//이 enum 타입을 넘기겠다.
-        Bind<Text>(typeof(Texts));// <T> : 그 중에 Text라는 component를 찾아서 맵핑해주세요.
-    }
-    void Bind<T>(Type type)
-    {
-        string[] names = Enum.GetNames(type);
+        Bind<TextMeshProUGUI>(typeof(Texts));// <T> : 그 중에 TextMeshPro라는 component를 찾아서 맵핑해주세요.
+        //Bind<GameObject>(typeof(GameObjects));
 
-        
-    }
+        //Get<Text>((int)Texts.ScoreText).text = "Bind Test";
+        GetTextUI((int)Texts.ScoreText).text = "Bind Test";
 
+    }
+    
     int _score = 0;
     public void OnButtonClicked()
     {
