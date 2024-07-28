@@ -10,12 +10,14 @@ public class Managers : MonoBehaviour
 
     InputManager _input = new InputManager();
     ResourceManager _resource = new ResourceManager();
+    SceneManagerEx _scene = new SceneManagerEx();
     UIManager _ui = new UIManager();
     PoolManager _pool = new PoolManager();
 
     public static InputManager Input { get { return Instance._input; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static UIManager UI { get { return Instance._ui; } }
+    public static SceneManagerEx Scene { get { return Instance._scene; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     void Start()
     {
@@ -24,7 +26,7 @@ public class Managers : MonoBehaviour
 
     void Update()
     {
-        _input.OnUpdate();
+        //_input.OnUpdate();
     }
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Define
 {
-    public enum Scene
+    public enum Scene // All Scene Names should be in here
     { 
         Unknown,
         Login,

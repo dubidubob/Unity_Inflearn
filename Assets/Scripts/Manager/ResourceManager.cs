@@ -12,7 +12,7 @@ public class ResourceManager
     public GameObject Instantiate(string path, Transform parent = null)
     {
         // 1. if origin is there, use rightly.
-        GameObject prefab = Load<GameObject>($"Prefabs/{path}");//original prefab is loaded in memory
+        GameObject prefab = Load<GameObject>($"Prefab/{path}");//original prefab is loaded in memory
         if (prefab == null)
         {
             Debug.Log($"Failed to Load Prefab : { path}");
