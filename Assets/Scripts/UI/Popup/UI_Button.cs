@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Button : UI_Base
+public class UI_Button : UI_Popup
 {
     [SerializeField] TextMeshProUGUI _text;
 
@@ -33,21 +33,27 @@ public class UI_Button : UI_Base
 
     private void Start()
     {
+        Init();
+    }
+
+    public override void Init()
+    {
+        base.Init();
+
         Bind<Button>(typeof(Buttons));//이 enum 타입을 넘기겠다.
         Bind<TextMeshProUGUI>(typeof(Texts));// <T> : 그 중에 TextMeshPro라는 component를 찾아서 맵핑해주세요.
         Bind<GameObject>(typeof(GameObjects));
         Bind<Image>(typeof(Images));
 
-        GameObject go = GetImage((int)Images.ItemIcon).gameObject;
-
-        GetButton((int)Buttons.PointButton).gameObject.BindEvent(OnButtonClicked);
+        GetButton((int)Buttons.PointButton).gameObject.AddUIEvent(OnButtonClicked);
 
         //UI_EventHandler evt = go.GetComponent<UI_EventHandler>();
         //evt.OnDragHandler += ((PointerEventData data) => { evt.gameObject.transform.position = data.position; });//Rect transform도 transform을 상속한다.
-        BindEvent(go, ((PointerEventData data) => { go.gameObject.transform.position = data.position; }), Define.UIEvent.Drag);
+        GameObject go = GetImage((int)Images.ItemIcon).gameObject;
+        AddUIEvent(go, ((PointerEventData data) => { go.gameObject.transform.position = data.position; }), Define.UIEvent.Drag);
 
     }
-    
+
     int _score = 0;
     public void OnButtonClicked(PointerEventData data)
     {

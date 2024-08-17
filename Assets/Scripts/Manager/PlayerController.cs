@@ -10,6 +10,17 @@ public class PlayerController : MonoBehaviour
     {
         Managers.Input.KeyAction -= OnKeyBoard;
         Managers.Input.KeyAction += OnKeyBoard;
+
+        //TEMP
+        //Managers.UI.ShowPopupUI<UI_Button>("UI_button");
+        //Managers.UI.ClosePopupUI();
+
+        //UI_Button ui = Managers.UI.ShowPopupUI<UI_Button>();
+        //Managers.UI.ClosePopupUI(ui);
+
+            Managers.UI.ShowPopupUI<UI_Button>();
+        
+
     }
 
     void OnKeyBoard()
