@@ -10,7 +10,6 @@ public class GameScene : BaseScene
 
         SceneType = Define.Scene.Game;
 
-        Debug.Log("Managers.UI.ShowSceneUI<UI_Inven>();");
         //Managers.UI.ShowSceneUI<UI_Inven>();
     }
     public override void Clear()
