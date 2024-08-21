@@ -6,6 +6,6 @@ public class Test : MonoBehaviour
 {
     void Start()
     {
-        //Managers.Resource.Instantiate("UI/UI_Button");
+        
     }
 }

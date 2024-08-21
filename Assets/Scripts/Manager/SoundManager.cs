@@ -4,6 +4,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
+	Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
     public void Init()
 	{
 		GameObject root = GameObject.Find("@Sound");
@@ -24,35 +25,68 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	//float pitch = 1.0f 이렇게 하면 옵션
-	public void Play(Define.Sound type, string path, float pitch = 1.0f)
+	public void Clear()
 	{
-		if (path.Contains("Sounds/") == false)
-			path = $"Sounds/{path}";
+		foreach (AudioSource audioSource in _audioSources)
+		{ 
+			audioSource.clip = null;
+			audioSource.Stop();
+		}
+		_audioClips.Clear();
+	}
+
+	//float pitch = 1.0f 이렇게 하면 옵션
+	public void Play(string path, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+	{
+		AudioClip audioClip = GetOrAddAudioClip(path, type);
+		Play(audioClip, type, pitch);
+	}
+
+	public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+	{
+		if (audioClip == null)
+			return;
 
 		if (type == Define.Sound.Bgm)
 		{
-			AudioClip audioClip = Resources.Load<AudioClip>("Sounds/retro");//= Managers.Resource.Load<AudioClip>(path);
-			if (audioClip == null)
-			{
-				Debug.Log($"AudioClip Missing ! {path}");
-				return;
-			}
-			// TODO
+			AudioSource audioSource = _audioSources[(int)Define.Sound.Bgm];
+			if (audioSource.isPlaying)
+				audioSource.Stop();
+
+			audioSource.pitch = pitch;
+			audioSource.clip = audioClip;
+			audioSource.Play();
 		}
 		else
 		{
-			AudioClip audioClip = Resources.Load<AudioClip>("Sounds/zoom");//= Managers.Resource.Load<AudioClip>(path);//Managers.Resource.Load<AudioClip>(path);
-            if (audioClip == null)
-			{
-				Debug.Log($"AudioClip Missing ! {path}");
-				return;
-			}
-			//이거 또 안 만들어도 되는데 그냥 코드 가독성을 위해서인 것 같다.
 			AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
 			audioSource.pitch = pitch;
 			audioSource.PlayOneShot(audioClip);
-		}
-
+		} 
 	}
-}
+
+	AudioClip GetOrAddAudioClip(string path, Define.Sound type = Define.Sound.Effect)
+	{ 
+		if (path.Contains("Sounds/") == false)
+			path = $"Sounds/{path}";
+
+		AudioClip audioClip = null;
+
+		if (type == Define.Sound.Bgm)
+		{
+			audioClip = Managers.Resource.Load<AudioClip>(path);//= Managers.Resource.Load<AudioClip>(path);
+		}
+		else
+		{
+			if (_audioClips.TryGetValue(path, out audioClip) == false)
+			{
+				audioClip = Managers.Resource.Load<AudioClip>(path);
+				_audioClips.Add(path, audioClip);
+			}
+		}
+			if (audioClip == null)
+				Debug.Log($"AudioClip Missing ! {path}");
+
+			return audioClip;
+		}
+	}
