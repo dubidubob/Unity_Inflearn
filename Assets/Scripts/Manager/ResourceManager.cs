@@ -21,7 +21,9 @@ public class ResourceManager
 
         // 2. if there any pooled object?
         GameObject go = Object.Instantiate(prefab, parent);//copy, go to parent's child
-        go.name = prefab.name;
+        int index = go.name.IndexOf("(Clone)");
+        if(index > 0)
+            go.name=go.name.Substring(0, index);
 
         return go;
     }
